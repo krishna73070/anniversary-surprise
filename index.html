@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Anniversary Surprise</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite, glowBG 6s ease-in-out infinite;
+      font-family: 'Comic Sans MS', cursive;
+      overflow: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    @keyframes glowBG {
+      0% {filter: brightness(1);}
+      50% {filter: brightness(1.3);}
+      100% {filter: brightness(1);}
+    }
+
+    .heart {
+      position: fixed;
+      top: -50px;
+      font-size: 30px;
+      color: red;
+      animation: fall 5s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    .box {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.5s;
+    }
+
+    .box:hover {
+      transform: scale(1.1) rotateY(20deg);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .message {
+      position: relative;
+      z-index: 1;
+      font-size: 24px;
+      font-weight: bold; /* Bold किया */
+      color: rgb(134, 244, 224);
+       mix-blend-mode: difference; /* इमेज के हिसाब से रंग बदल जाएगा */
+      text-align: center;
+      padding: 10px;
+    }
+
+    .mini-box {
+      position: absolute;
+      bottom: 20px; /* नीचे फिक्स */
+      z-index: 2;
+      padding: 10px 20px;
+      background: #ff4081;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      animation: pulse 1.5s infinite;
+    }
+
+    .photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.7; }
+    }
+  </style>
+</head>
+<body>
+  <!-- पहला box -->
+  <div id="box0" class="box" onclick="openBox(1)">
+    <img src="mypic.jpeg" alt="My Pic" class="photo">
+    <div class="mini-box">🖐️ Tap Here Baby</div>
+  </div>
+
+  <div id="box1" class="box hidden" onclick="openBox(2)">
+    <img src="mypic2.jpeg" alt="My Pic" class="photo">
+    <div class="message">Happy 2nd Anniversary Thakurain ji! 🎉 This surprise is for you ❤️</div>
+    <div class="mini-box">🖐️ Tap Here Baby</div>
+  </div>
+
+  <div id="box2" class="box hidden" onclick="openBox(3)">
+    <img src="mypic3.jpeg" alt="My Pic" class="photo">
+    <div class="message"> hey! Baby Ajj Hame 2 years complete ho gaye and 
+      i remeber all memories with you kash me ye moment tumhare sath enjoy kar pata but koi batt ni i allways with you my soul </div>
+    <div class="mini-box">🖐️ Tap Here Baby</div>
+  </div>
+
+  <div id="box3" class="box hidden">
+    <img src="mypic4.jpeg" alt="My Pic" class="photo">
+    <div class="message"> or tum bolti ho na propose karne ka new tarika dhundo to mene
+       new idea socha to will you merry me my fuggi, hamesa mera sath chalne ke liye ready ho, me thora shaqi hu thora befikra b 
+       kya tum meri care karne ke life time raho gi mere sath💍 I love you my darling💖</div>
+  </div>
+
+    <!-- Romantic Music -->
+<audio id="bgMusic" loop >
+  <source src="music.mpeg" type="audio/mpeg">
+</audio>
+
+<script>
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerHTML = '💘';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 5000);
+  }
+
+  setInterval(createHeart, 500);
+
+  function openBox(num) {
+    const visibleBox = document.querySelector('.box:not(.hidden)');
+    if (visibleBox) visibleBox.classList.add('hidden');
+
+    const nextBox = document.getElementById('box' + num);
+    if (nextBox) nextBox.classList.remove('hidden');
+
+    // जब पहला box खुले तो music शुरू हो
+    const music = document.getElementById('bgMusic');
+    if (music.paused) {
+      music.play().catch(err => {
+        console.log("Autoplay blocked, user interaction needed:", err);
+      });
+    }
+  }
+</script>
+
+</body>
+</html>
